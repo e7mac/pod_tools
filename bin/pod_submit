@@ -21,8 +21,7 @@ STDOUT.sync = true if ENV['CP_STDOUT_SYNC'] == 'TRUE'
 
 require 'cocoapods'
 require 'cocoapods-core'
-require 'rugged'
-require 'pry'
+# require 'pry'
 
 podspecs = Dir.glob("*.podspec")
 exit if podspecs.empty?
@@ -41,11 +40,15 @@ end
 
 spec = Pod::Specification::from_file(podspecs[0])
 version = spec.version.to_s
+puts "Committing the new podspec file."
+system "git add #{podspecs[0]}"
+system "git commit -m 'Changed the version of the podspec to #{version}'"
+
 puts "Tagging version to #{version}."
 system "git tag -a '#{version}'"
 
 puts "Pushing to github."
-system "git push --tags"
+system "git push --tags origin"
 
 puts "Pushing #{podspecs[0]} to the spec repository at #{push_to_repo}."
 system "pod push #{push_to_repo} #{podspecs[0]}"
