@@ -56,6 +56,9 @@ IO.readlines('Podfile.original').each do |line|
     if local_pods.index(podname) 
       # Keep this as a local pod
       new_line = "pod '#{podname}', :path=> \"../#{podname}/#{podname}.podspec\" \n"
+      clone_command = "git clone #{ENV['GIT_REPO_BASE_URL']}/#{podname}.git ../#{podname}"
+      puts "Cloning pod - #{clone_command}"
+      system clone_command
     else 
       new_line = line
     end

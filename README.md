@@ -18,6 +18,17 @@ Or install it yourself as:
     $ gem install specific_install
     $ gem specific_install -l https://github.com/keremk/pod_tools.git
 
+## Preparation
+
+Below commands assumes that you have the following setup:
+
+* GIT_REPO_BASE_URL environment variable pointing to your github repository for your private pods. And the Github project names follow the convention of Podname1, Podname2... To set the environment variable, in your shell's setup file (such as ~/.zshrc) set the following environment variable:
+
+    export GIT_REPO_BASE_URL=url/to/your/github/repo
+
+* Cocoapods private repo setup. Your organization should setup a private repo as instructed [here](http://guides.cocoapods.org/making/private-cocoapods.html). The pod_submit command will read your local repo from ~/.cocoapods folder. It also assumes there is only one private repo there.
+
+
 ## Usage
 
 ### pod_install
@@ -31,7 +42,7 @@ will assume there is a Podfile from where you run the above command, copy the or
     pod 'Podname1', :path => "../Podname1/Podname1.podspec"
     pod 'Podname2', :path => "../Podname2/Podname2.podspec"
 
-and run pod install on that modified Podfile. After that, it will revert back to the original Podfile, so that you don't need worry about your Podfile changing in the git repository, while you are working on it.
+It will try to clone those pods in the folder as shown above using the ENV variable set for GIT_REPO_BASE_URL. And then it will run pod install on that modified Podfile. After that, it will revert back to the original Podfile, so that you don't need worry about your Podfile changing in the git repository, while you are working on it.
 
 ### pod_submit
 
