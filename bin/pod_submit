@@ -45,7 +45,7 @@ system "git add #{podspecs[0]}"
 system "git commit -m 'Changed the version of the podspec to #{version}'"
 
 puts "Tagging version to #{version}."
-system "git tag -a '#{version}'"
+system "git tag -a '#{version}' -m 'Tagged to #{version} before pod pushing'"
 
 puts "Pushing to github."
 system "git push --tags origin master"
