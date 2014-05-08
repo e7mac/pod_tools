@@ -48,7 +48,7 @@ puts "Tagging version to #{version}."
 system "git tag -a '#{version}'"
 
 puts "Pushing to github."
-system "git push --tags origin"
+system "git push --tags origin master"
 
 puts "Pushing #{podspecs[0]} to the spec repository at #{push_to_repo}."
 system "pod push #{push_to_repo} #{podspecs[0]}"
