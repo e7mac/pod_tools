@@ -9,9 +9,9 @@ module PodTools::PodfileReader
           # Keep this as a local pod
           new_line = "pod '#{podname}', :path=> \"../#{podname}/#{podname}.podspec\" \n"
           yield(podname, :clone)
-        elsif podname[0..1] == "TP"
+        elsif podname[0..1] == ENV['PRIVATE_POD_NAMESPACE']
           # one of our pods, use the required branch
-          new_line = "pod '#{podname}', :git => '#{ENV['GIT_REPO_BASE_URL']}/#{podname}.git', :branch => #{branch} \n"
+          new_line = "pod '#{podname}', :git => '#{ENV['GIT_REPO_BASE_URL']}/#{podname}.git', :branch => '#{branch}' \n"
           yield(podname, :none)
         else
           new_line = line

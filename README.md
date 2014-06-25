@@ -22,39 +22,27 @@ Or install it yourself as:
 
 Below commands assumes that you have the following setup:
 
-* GIT_REPO_BASE_URL environment variable pointing to your github repository for your private pods. And the Github project names follow the convention of Podname1, Podname2... To set the environment variable, in your shell's setup file (such as ~/.zshrc) set the following environment variable:
+* GIT_REPO_BASE_URL: environment variable pointing to your github repository for your private pods. And the Github project names follow the convention of Podname1, Podname2... To set the environment variable, in your shell's setup file (such as ~/.zshrc) set the following environment variable:
 
     export GIT_REPO_BASE_URL=url/to/your/github/repo
 
-* Cocoapods private repo setup. Your organization should setup a private repo as instructed [here](http://guides.cocoapods.org/making/private-cocoapods.html). The pod_submit command will read your local repo from ~/.cocoapods folder. It also assumes there is only one private repo there.
-
+* PRIVATE_POD_NAMESPACE: The usual 2-3 letter ObjectiveC namespacing convention for your pod names. This is used to pick your provide podfiles over the external ones you are using. This way the Podfile gets modified to use the specified branch of the repo for those pods.
 
 ## Usage
 
-### pod_install
+### pt install
 
 This is a tool that runs pod install on a modified Podfile. This way you can keep some of the pods (ones you are actively developing) on your local machine and some will come from your local private pod repository. This helps when you are rapidly iterating on those pods.
 
-    pod_install --keep Podname1 Podname2
+    pt install --keep TPPodname1 TPPodname2 --branch Development
 
-will assume there is a Podfile from where you run the above command, copy the original Podfile to a temp file, modify the Podfile as such:
+will assume there is a Podfile from where you run the above command, copy the original Podfile to a temp file, modify the Podfile as such: (Assume PRIVATE_POD_NAMESPACE=TP)
 
-    pod 'Podname1', :path => "../Podname1/Podname1.podspec"
-    pod 'Podname2', :path => "../Podname2/Podname2.podspec"
+    pod 'TPPodname1', :path => '../Podname1/Podname1.podspec'
+    pod 'TPPodname2', :path => '../Podname2/Podname2.podspec'
+    pod 'TPPodname3', :git => 'https://github.com/MYREPO/TPPodname3.git', :branch => 'development'
 
-It will try to clone those pods in the folder as shown above using the ENV variable set for GIT_REPO_BASE_URL. And then it will run pod install on that modified Podfile. After that, it will revert back to the original Podfile, so that you don't need worry about your Podfile changing in the git repository, while you are working on it.
-
-### pod_submit
-
-This is a tool that pops up your default editor (as specified in the $EDITOR variable of your commandline shell) to edit the version of your podspec. Then:
-* commits the podspec to the git repo, 
-* tags your git repo with the same version as what you had in the podspec file,
-* pushes the changes with tags to your git origin,
-* pushes the podspec to your local private cocoapods repository.  
-
-You need to run this from the root of your pod project where the podspec file is located:
-
-    pod_submit
+It will try to clone the local pods in the folder as shown above using the ENV variable set for GIT_REPO_BASE_URL. It will also alter the other TP pods to point to development branch. And then it will run pod install on that modified Podfile. After that, it will revert back to the original Podfile, so that you don't need worry about your Podfile changing in the git repository, while you are working on it.
 
 ## Contributing
 
