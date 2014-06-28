@@ -35,7 +35,7 @@ class PodTools::CLI < Thor
     IO.write('Podfile', new_lines)
 
     args = ['install', '--no-repo-update']
-    # Pod::Command.run(args)
+    Pod::Command.run(args)
 
     say "Copying back the original Podfile."
     FileUtils.cp('Podfile.original', 'Podfile')
