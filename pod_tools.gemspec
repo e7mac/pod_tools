@@ -27,4 +27,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "awesome_print"
   spec.add_development_dependency "pry-stack_explorer"
   spec.add_development_dependency "pry-byebug", "~> 1.3"
+  spec.add_development_dependency "github_api", "~> 0.12"
 end
